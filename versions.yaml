@@ -20,10 +20,13 @@
 _variables:
   from8: &from8 gcr.io/google-appengine/debian8
   from9: &from9 gcr.io/google-appengine/debian9
-  gpg: &gpg B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
   gosu: &gosu
     version: '1.10'
     gpg: B42F6819007F00F88E364FD4036A9C25BF357DD4
+    retrycommand: gpg --keyserver $server --recv-keys $GOSU_GPG
+  postgresql: &postgresql
+    gpg: B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+    retrycommand: gpg --keyserver ${server} --recv-keys "$key"
 
 versions:
   - dir: '10'
@@ -36,9 +39,9 @@ versions:
     packages:
       gosu: *gosu
       postgresql:
+        <<: *postgresql
         version: 10.1-1.pgdg90+1
         major: '10'
-        gpg: *gpg
   - dir: '9/9.6'
     repo: postgresql9
     tags:
@@ -49,9 +52,9 @@ versions:
     packages:
       gosu: *gosu
       postgresql:
+        <<: *postgresql
         version: 9.6.6*
         major: '9.6'
-        gpg: *gpg
   - dir: '9/9.5'
     repo: postgresql9
     tags:
@@ -61,9 +64,9 @@ versions:
     packages:
       gosu: *gosu
       postgresql:
+        <<: *postgresql
         version: 9.5.10*
         major: '9.5'
-        gpg: *gpg
   - dir: '9/9.4'
     repo: postgresql9
     tags:
@@ -73,9 +76,9 @@ versions:
     packages:
       gosu: *gosu
       postgresql:
+        <<: *postgresql
         version: 9.4.15*
         major: '9.4'
-        gpg: *gpg
   - dir: '9/9.3'
     repo: postgresql9
     tags:
@@ -85,9 +88,9 @@ versions:
     packages:
       gosu: *gosu
       postgresql:
+        <<: *postgresql
         version: 9.3.20*
         major: '9.3'
-        gpg: *gpg
   - dir: '9/9.2'
     repo: postgresql9
     tags:
@@ -97,6 +100,14 @@ versions:
     packages:
       gosu: *gosu
       postgresql:
+        <<: *postgresql
         version: 9.2.24*
         major: '9.2'
-        gpg: *gpg
+
+extensions:
+  - 'TEMPLATE_FROM'
+  - 'TEMPLATE_RETRY'
+
+config:
+  template_retry_intendt_type:   '	'
+  template_retry_intendt_length: 1
