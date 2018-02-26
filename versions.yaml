@@ -105,9 +105,6 @@ versions:
         major: '9.2'
 
 extensions:
-  - 'TEMPLATE_FROM'
-  - 'TEMPLATE_RETRY'
-
-config:
-  template_retry_intendt_type:   '	'
-  template_retry_intendt_length: 1
+  from: {}
+  retry:
+    template_retry_intendt:   '	'
